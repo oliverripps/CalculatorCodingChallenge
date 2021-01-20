@@ -1,0 +1,96 @@
+<head>
+  <link rel="stylesheet" type="text/css" href="./index.css">
+  <title> Calculator Exercise </title>
+  <script>
+    var go = setInterval(list, 100);
+    window.onload = list;
+    function list(){
+      if(localStorage.getItem("amount") == null){
+        localStorage.setItem("amount",0);
+      }
+      var amount = localStorage.getItem("amount");
+      if(localStorage.getItem("lower") == null){
+        localStorage.setItem("lower",1);
+      }
+      var lower = localStorage.getItem("lower");
+      var createlist = "<ul>";
+      if(amount > 10){
+        lower=amount-10;
+        localStorage.setItem("lower",lower);
+      }
+      for (i=amount;i >= lower; i--){
+        createlist += "<li>"
+        createlist += localStorage.getItem(i);
+        createlist += "</li>"
+      }
+      createlist+= "</ul>";
+      document.getElementById("list").innerHTML = createlist;
+    }
+
+    function store(num){
+       var amount = localStorage.getItem("amount");
+       amount++;
+       localStorage.setItem("amount",amount);
+       localStorage.setItem(amount, num);
+     }
+     function buildexp(input){
+       document.getElementById("display").value+=input;
+       document.getElementById("display").value+=" ";
+     }
+
+     function solve(){
+       var exp = document.getElementById("display").value
+       var answer = eval(exp);
+       document.getElementById("display").value = answer;
+       var equation = exp += "= ";
+       equation += answer;
+       store(equation);
+     }
+
+     function clearscreen(){
+       var empty = " ";
+       document.getElementById("display").value = empty;
+     }
+
+  </script>
+</head>
+<body>
+  <div class="header">Calculator Exercise </div>
+  <div class="calculator">
+      <table border="2">
+         <tr>
+            <td colspan="4"><input type="text" id="display"/></td>
+         </tr>
+         <tr>
+            <td><input type="button" value="CLR" onclick="clearscreen()"/> </td>
+            <td><input type="button" value="EXP" onclick="buildexp('^')"/> </td>
+            <td><input type="button" value="MOD" onclick="buildexp('%')"/> </td>
+            <td><input type="button" value="/" onclick="buildexp('/')"/> </td>
+        </tr>
+        <tr>
+           <td><input type="button" value="7" onclick="buildexp('7')"/> </td>
+           <td><input type="button" value="8" onclick="buildexp('8')"/> </td>
+           <td><input type="button" value="9" onclick="buildexp('9')"/> </td>
+           <td><input type="button" value="x" onclick="buildexp('*')"/> </td>
+        </tr>
+        <tr>
+           <td><input type="button" value="4" onclick="buildexp('4')"/> </td>
+           <td><input type="button" value="5" onclick="buildexp('5')"/> </td>
+           <td><input type="button" value="6" onclick="buildexp('6')"/> </td>
+           <td><input type="button" value="-" onclick="buildexp('-')"/> </td>
+        </tr>
+        <tr>
+            <td><input type="button" value="1" onclick="buildexp('1')"/> </td>
+            <td><input type="button" value="2" onclick="buildexp('2')"/> </td>
+            <td><input type="button" value="3" onclick="buildexp('3')"/> </td>
+            <td><input type="button" value="+" onclick="buildexp('+')"/> </td>
+         </tr>
+         <tr>
+           <td colspan="2"><input type="button" value="0" onclick="buildexp('0')"/> </td>
+           <td colspan="2"><input type="button" value="=" onclick="solve()"/> </td>
+         </tr>
+      </table>
+  <div class="history" id=list> </div>
+  </div>
+
+</body>
